@@ -56,10 +56,12 @@ const Card = (props: any) => {
             onMouseLeave={endHover}
             onClick={startEditing}
           >
-            <p className="w-full border-b-2 border-gray-400 text-base font-medium break-words">
+            <p className="w-full border-b-2 border-gray-400 text-base font-medium break-words whitespace-pre-line">
               {card.text}
             </p>
-            <p className="w-full text-sm break-words">{card?.description}</p>
+            <p className="w-full text-sm break-words whitespace-pre-line">
+              {card?.description}
+            </p>
           </div>
         )}
       </Draggable>

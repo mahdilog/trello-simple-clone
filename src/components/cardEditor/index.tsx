@@ -15,8 +15,8 @@ const CardEditor = (props: any) => {
   };
 
   const onEnter = (e: any) => {
-    if (e.keyCode === 13) {
-      if (text.trim() && description.treim()) {
+    if (e.keyCode === 13 && !e.shiftKey) {
+      if (text.trim() && description.trim()) {
         e.preventDefault();
         onSave(text, description);
       }
