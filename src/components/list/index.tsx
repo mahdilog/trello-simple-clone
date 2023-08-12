@@ -86,7 +86,7 @@ const List = ({ list, index, dispatch, setAddingList }: any) => {
             />
           ) : (
             <div className="w-full" onClick={toggleEditingTitle}>
-              <p className="break-words">{list.title}</p>
+              <p className="break-words whitespace-pre-line">{list.title}</p>
             </div>
           )}
 
