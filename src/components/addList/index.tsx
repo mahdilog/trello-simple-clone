@@ -9,16 +9,19 @@ const AddList = ({ toggleAddingList, dispatch }: any) => {
   const handleChangeTitle = (e: any) => setTitle(e.target.value);
 
   const createList = async () => {
-    toggleAddingList();
-
-    dispatch({
-      type: "ADD_LIST",
-      payload: { listId: v4(), listTitle: title },
-    });
+    if (title.trim()) {
+      toggleAddingList();
+      dispatch({
+        type: "ADD_LIST",
+        payload: { listId: v4(), listTitle: title },
+      });
+    } else {
+      toggleAddingList();
+    }
   };
 
   return (
-    <div className="Add-List-Editor">
+    <div>
       <ListEditor
         title={title}
         handleChangeTitle={handleChangeTitle}

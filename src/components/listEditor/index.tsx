@@ -10,13 +10,6 @@ const ListEditor = ({
 }: any) => {
   const ref = useRef<any>();
 
-  const onEnter = (e: any) => {
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      saveList();
-    }
-  };
-
   const handleClick = (e: any) => {
     const node: any = ref.current;
 
@@ -33,15 +26,13 @@ const ListEditor = ({
   }, []);
 
   return (
-    <div className="List-Title-Edit" ref={ref}>
+    <div className="w-70" ref={ref}>
       <TextareaAutosize
         autoFocus
-        className="List-Title-Textarea"
+        className="overflow-y-auto max-h-24 overflow-x-hidden w-full resize-none"
         placeholder="Enter list title..."
         value={title}
         onChange={handleChangeTitle}
-        onKeyDown={onEnter}
-        style={{ width: deleteList ? 220 : 245 }}
         onBlur={(e) => {
           if (!e.target.value) {
             onClickOutside();
@@ -50,7 +41,11 @@ const ListEditor = ({
           }
         }}
       />
-      {deleteList && <div onClick={deleteList}>delete</div>}
+      {deleteList && (
+        <div onClick={deleteList} className="w-fit">
+          delete
+        </div>
+      )}
     </div>
   );
 };

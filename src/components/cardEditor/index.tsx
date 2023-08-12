@@ -28,18 +28,20 @@ const CardEditor = (props: any) => {
       <div className="">
         <TextareaAutosize
           autoFocus
-          className="resize-none w-full"
+          className="resize-none w-full overflow-y-auto max-h-24"
           placeholder={text || "title"}
           value={text}
           onChange={handleChangeText}
           onKeyDown={onEnter}
+          maxLength={200}
         />
         <TextareaAutosize
-          className="resize-none w-full"
+          className="resize-none w-full overflow-y-auto max-h-32"
           placeholder={description || "description"}
           value={description}
           onChange={handleChangeDescription}
           onKeyDown={onEnter}
+          maxLength={600}
         />
       </div>
       <EditButtons

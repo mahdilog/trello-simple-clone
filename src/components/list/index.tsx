@@ -8,12 +8,15 @@ import ListEditor from "../listEditor";
 
 import { v4 } from "uuid";
 
-const List = ({ list, index, dispatch }: any) => {
+const List = ({ list, index, dispatch, setAddingList }: any) => {
   const [editingTitle, setEditingTitle] = useState(false);
   const [title, setTitle] = useState(list.title);
   const [addingCard, setAddingCard] = useState(false);
 
-  const toggleAddingCard = () => setAddingCard(!addingCard);
+  const toggleAddingCard = () => {
+    setAddingList(false);
+    setAddingCard(!addingCard);
+  };
 
   const addCard = async (cardText: any, description: any) => {
     const cardId = v4();
@@ -31,11 +34,20 @@ const List = ({ list, index, dispatch }: any) => {
   const handleChangeTitle = (e: any) => setTitle(e.target.value);
 
   const editListTitle = async (e: any) => {
-    toggleEditingTitle();
-    dispatch({
-      type: "CHANGE_LIST_TITLE",
-      payload: { listId: list._id, listTitle: title },
-    });
+    if (title) {
+      toggleEditingTitle();
+      dispatch({
+        type: "CHANGE_LIST_TITLE",
+        payload: { listId: list._id, listTitle: title },
+      });
+    } else {
+      if (window.confirm("Are you sure to delete this list?")) {
+        dispatch({
+          type: "DELETE_LIST",
+          payload: { listId: list._id, cards: list.cards },
+        });
+      }
+    }
   };
 
   const deleteList = async () => {
@@ -61,7 +73,7 @@ const List = ({ list, index, dispatch }: any) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className="w-80 bg-gray-300 p-2 rounded-xl h-max"
+          className="w-80 bg-gray-300 p-2 rounded-xl h-fit max-h-[640px] overflow-y-auto"
         >
           {editingTitle ? (
             <ListEditor
@@ -73,8 +85,8 @@ const List = ({ list, index, dispatch }: any) => {
               deleteList={deleteList}
             />
           ) : (
-            <div className="List-Title" onClick={toggleEditingTitle}>
-              {list.title}
+            <div className="w-full" onClick={toggleEditingTitle}>
+              <p className="break-words">{list.title}</p>
             </div>
           )}
 

@@ -52,12 +52,23 @@ const Board = (props: any) => {
         {(provided, _snapshot) => (
           <div className="flex flex-row gap-3 p-3" ref={provided.innerRef}>
             {props.board.lists.map((listId: any, index: any) => (
-              <List listId={listId} key={listId} index={index} />
+              <List
+                listId={listId}
+                key={listId}
+                index={index}
+                setAddingList={setAddingList}
+              />
             ))}
 
             {provided.placeholder}
 
-            <div className="bg-blue-400 h-10 w-fit p-2 rounded-md">
+            <div
+              className={
+                addingList
+                  ? "bg-slate-300 h-fit max-h-[640px]  w-fit p-2 rounded-md"
+                  : "bg-blue-400 h-10 w-fit p-2 rounded-md"
+              }
+            >
               {addingList ? (
                 <AddList toggleAddingList={toggleAddingList} />
               ) : (
