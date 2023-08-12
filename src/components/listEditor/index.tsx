@@ -10,7 +10,7 @@ const ListEditor = ({
 }: {
   title: string;
   handleChangeTitle: any;
-  deleteList: any;
+  deleteList?: any;
   onClickOutside: any;
   saveList: any;
 }) => {
