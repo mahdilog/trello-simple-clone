@@ -1,20 +1,35 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import EditButtons from "../editButtons";
 
-const CardEditor = (props: any) => {
-  const { onSave, onCancel, onDelete, adding } = props;
-  const [text, setText] = useState(props.text || "");
-  const [description, setDescription] = useState(props.description || "");
+interface CardEditorProps {
+  onSave: (text: string, description: string) => Promise<void>;
+  onCancel: () => void;
+  onDelete?: () => void;
+  adding?: boolean;
+  cardText?: string;
+  cardDescription?: string;
+}
 
-  const handleChangeText = (event: any) => {
+const CardEditor: React.FC<CardEditorProps> = ({
+  onSave,
+  onCancel,
+  onDelete,
+  adding,
+  cardText,
+  cardDescription,
+}) => {
+  const [text, setText] = useState(cardText || "");
+  const [description, setDescription] = useState(cardDescription || "");
+
+  const handleChangeText = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
   };
-  const handleChangeDescription = (event: any) => {
+  const handleChangeDescription = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(event.target.value);
   };
 
-  const onEnter = (e: any) => {
+  const onEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.keyCode === 13 && !e.shiftKey) {
       if (text.trim() && description.trim()) {
         e.preventDefault();

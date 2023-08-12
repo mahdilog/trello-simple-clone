@@ -5,7 +5,12 @@ const EditButtons = ({
   saveLabel,
   handleDelete,
   handleCancel,
-}: any) => (
+}: {
+  handleSave: () => Promise<void>;
+  handleCancel: () => void;
+  saveLabel: string;
+  handleDelete?: () => void;
+}) => (
   <div className="Edit-Buttons">
     <div
       tabIndex={0}

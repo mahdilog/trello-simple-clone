@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { ChangeEvent, useEffect, useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
 const ListEditor = ({
@@ -7,7 +7,13 @@ const ListEditor = ({
   deleteList,
   saveList,
   onClickOutside,
-}: any) => {
+}: {
+  title: string;
+  handleChangeTitle: any;
+  deleteList: any;
+  onClickOutside: any;
+  saveList: any;
+}) => {
   const ref = useRef<any>();
 
   const handleClick = (e: any) => {

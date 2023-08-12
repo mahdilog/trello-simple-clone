@@ -1,22 +1,20 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 
 import List from "../list";
 import AddList from "../addList";
+import { Dispatch } from "redux";
 
-const Board = (props: any) => {
+const Board = ({ dispatch, board }: { dispatch: Dispatch; board: any }) => {
   const [addingList, setAddingList] = useState(false);
 
   const toggleAddingList = () => {
     setAddingList(!addingList);
   };
 
-  const handleDragEnd = ({ source, destination, type }: any) => {
+  const handleDragEnd = ({ source, destination, type }: DropResult) => {
     if (!destination) return;
-
-    const { dispatch } = props;
-
     if (type === "COLUMN") {
       if (source.index !== destination.index) {
         dispatch({
@@ -51,7 +49,7 @@ const Board = (props: any) => {
       <Droppable droppableId="board" direction="horizontal" type="COLUMN">
         {(provided, _snapshot) => (
           <div className="flex flex-row gap-3 p-3" ref={provided.innerRef}>
-            {props.board.lists.map((listId: any, index: any) => (
+            {board.lists.map((listId: string, index: number) => (
               <List
                 listId={listId}
                 key={listId}

@@ -2,24 +2,33 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Draggable } from "react-beautiful-dnd";
 import CardEditor from "../cardEditor";
+import { Dispatch } from "redux";
 
-const Card = (props: any) => {
-  const [hover, setHover] = useState(false);
+const Card = ({
+  card,
+  dispatch,
+  listId,
+  index,
+}: {
+  card: {
+    description: string;
+    text: string;
+    _id: string;
+  };
+  dispatch: Dispatch;
+  listId: string;
+  index: number;
+}) => {
   const [editing, setEditing] = useState(false);
 
-  const startHover = () => setHover(true);
-  const endHover = () => setHover(false);
   const startEditing = () => {
-    setHover(false);
     setEditing(true);
   };
   const endEditing = () => {
-    setHover(false);
     setEditing(false);
   };
 
-  const editCard = async (title: any, description: any) => {
-    const { card, dispatch, listId } = props;
+  const editCard = async (title: string, description: string) => {
     if (title) {
       endEditing();
       dispatch({
@@ -41,7 +50,6 @@ const Card = (props: any) => {
   };
 
   const deleteCard = async () => {
-    const { listId, card, dispatch } = props;
     if (window.confirm("Are you sure to delete this card?")) {
       dispatch({
         type: "DELETE_CARD",
@@ -49,8 +57,6 @@ const Card = (props: any) => {
       });
     }
   };
-
-  const { card, index } = props;
 
   if (!editing) {
     return (
@@ -61,8 +67,6 @@ const Card = (props: any) => {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             className="flex flex-wrap w-full border-b-[1px] bg-white rounded p-2"
-            onMouseEnter={startHover}
-            onMouseLeave={endHover}
             onClick={startEditing}
           >
             <p className="w-full border-b-2 border-gray-400 text-base font-medium break-words whitespace-pre-line">
@@ -79,8 +83,8 @@ const Card = (props: any) => {
     return (
       <>
         <CardEditor
-          text={card.text}
-          description={card?.description}
+          cardText={card.text}
+          cardDescription={card?.description}
           onSave={editCard}
           onDelete={deleteCard}
           onCancel={endEditing}

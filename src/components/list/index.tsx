@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, {
+  useState,
+  Dispatch as ReactDispatch,
+  SetStateAction,
+  ChangeEvent,
+} from "react";
 import { connect } from "react-redux";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -7,8 +12,19 @@ import CardEditor from "../cardEditor";
 import ListEditor from "../listEditor";
 
 import { v4 } from "uuid";
+import { Dispatch } from "redux";
 
-const List = ({ list, index, dispatch, setAddingList }: any) => {
+const List = ({
+  list,
+  index,
+  dispatch,
+  setAddingList,
+}: {
+  list: any;
+  index: number;
+  dispatch: Dispatch;
+  setAddingList: ReactDispatch<SetStateAction<boolean>>;
+}) => {
   const [editingTitle, setEditingTitle] = useState(false);
   const [title, setTitle] = useState(list.title);
   const [addingCard, setAddingCard] = useState(false);
@@ -18,7 +34,7 @@ const List = ({ list, index, dispatch, setAddingList }: any) => {
     setAddingCard(!addingCard);
   };
 
-  const addCard = async (cardText: any, description: any) => {
+  const addCard = async (cardText: string, description: string) => {
     const cardId = v4();
     if (cardText) {
       dispatch({
@@ -31,9 +47,10 @@ const List = ({ list, index, dispatch, setAddingList }: any) => {
 
   const toggleEditingTitle = () => setEditingTitle(!editingTitle);
 
-  const handleChangeTitle = (e: any) => setTitle(e.target.value);
+  const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) =>
+    setTitle(e.target.value);
 
-  const editListTitle = async (e: any) => {
+  const editListTitle = async () => {
     if (title) {
       toggleEditingTitle();
       dispatch({
@@ -77,7 +94,6 @@ const List = ({ list, index, dispatch, setAddingList }: any) => {
         >
           {editingTitle ? (
             <ListEditor
-              list={list}
               title={title}
               handleChangeTitle={handleChangeTitle}
               saveList={editListTitle}
@@ -97,7 +113,7 @@ const List = ({ list, index, dispatch, setAddingList }: any) => {
                 className="flex w-full flex-wrap gap-2 p-2"
               >
                 {list.cards &&
-                  list.cards.map((cardId: any, index: any) => (
+                  list.cards.map((cardId: string, index: number) => (
                     <Card
                       key={cardId}
                       cardId={cardId}
