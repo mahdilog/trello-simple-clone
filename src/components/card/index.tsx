@@ -19,16 +19,25 @@ const Card = (props: any) => {
   };
 
   const editCard = async (title: any, description: any) => {
-    const { card, dispatch } = props;
-    endEditing();
-    dispatch({
-      type: "CHANGE_CARD_TEXT",
-      payload: {
-        cardId: card._id,
-        cardText: title,
-        description: description,
-      },
-    });
+    const { card, dispatch, listId } = props;
+    if (title) {
+      endEditing();
+      dispatch({
+        type: "CHANGE_CARD_TEXT",
+        payload: {
+          cardId: card._id,
+          cardText: title,
+          description: description,
+        },
+      });
+    } else {
+      if (window.confirm("Are you sure to delete this card?")) {
+        dispatch({
+          type: "DELETE_CARD",
+          payload: { cardId: card._id, listId },
+        });
+      }
+    }
   };
 
   const deleteCard = async () => {
