@@ -67,14 +67,18 @@ const Card = ({
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             className="flex flex-wrap w-full border-b-[1px] bg-white rounded p-2"
-            onClick={startEditing}
           >
-            <p className="w-full border-b-2 border-gray-400 text-base font-medium break-words whitespace-pre-line">
-              {card.text}
+            <p className="w-full" onClick={() => console.log("modal")}>
+              =
             </p>
-            <p className="w-full text-sm break-words whitespace-pre-line">
-              {card?.description}
-            </p>
+            <div onClick={startEditing}>
+              <p className="w-full text-base font-medium break-words whitespace-pre-line">
+                {card.text}
+              </p>
+              <p className="text-sm break-words whitespace-pre-line">
+                {card?.description}
+              </p>
+            </div>
           </div>
         )}
       </Draggable>
